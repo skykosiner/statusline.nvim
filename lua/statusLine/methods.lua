@@ -14,8 +14,9 @@ local settings = {
 }
 
 function methods.Setup(config)
+    -- TODO: Make the table actually update the settings table
     settings = setmetatable(config, { __index = settings })
-    print(vim.inspect(settings))
+    -- print(vim.inspect(settings))
 end
 
 function methods.Get(key)

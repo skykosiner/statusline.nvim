@@ -1,6 +1,6 @@
 local statusInfo = {}
 
-function statusInfo:fileInfo()
+function statusInfo.fileInfo()
     local name = vim.api.nvim_buf_get_name(0)
 
     if not name or name == "" then
@@ -20,7 +20,7 @@ local function getGitIcon()
     return require("nvim-web-devicons").get_icon ".gitattributes"
 end
 
-function statusInfo:getGitInfo()
+function statusInfo.getGitInfo()
     local git_branch = vim.fn["FugitiveHead"]()
 
     if not git_branch or git_branch == "" then
@@ -33,7 +33,7 @@ function statusInfo:getGitInfo()
     return git_branch
 end
 
-function statusInfo:getLineInfo()
+function statusInfo.getLineInfo()
     local line = vim.fn.line(".")
     local offset = vim.fn.col(".")
 
@@ -56,7 +56,7 @@ function statusInfo:getLineInfo()
     return string.format("[%d:%s]", line, offset)
 end
 
-function statusInfo:getMode()
+function statusInfo.getMode()
     local mode = vim.fn.mode()
 
     local mode_table = {
@@ -82,7 +82,7 @@ function statusInfo:getMode()
     return mode
 end
 
-function statusInfo:getFileType()
+function statusInfo.getFileType()
     local file_name, file_ext = vim.fn.expand("%:t"), vim.fn.expand("%:e")
     local icon = require 'nvim-web-devicons'.get_icon(file_name, file_ext, { default = true })
     local filetype = vim.bo.filetype
