@@ -10,7 +10,10 @@ local settings = {
         HarpoonInfo = false,
         SaveInfo = false,
     },
-    backgroundColor = "#7fa3c0",
+    colors = {
+        backgroundColor = "#7fa3c0",
+        textColor = "#373b40",
+    },
 }
 
 function methods.Setup(config)

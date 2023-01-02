@@ -1,6 +1,6 @@
 local statusInfo = {}
 
-function statusInfo.fileInfo()
+function statusInfo.getFileInfo()
     local name = vim.api.nvim_buf_get_name(0)
 
     if not name or name == "" then
