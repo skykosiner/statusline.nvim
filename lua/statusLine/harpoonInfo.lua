@@ -1,6 +1,6 @@
 local harpoonInfo = {}
 
-function harpoonInfo:getCurrentMark()
+function harpoonInfo.getCurrentMark()
     local status = require("harpoon.mark").status()
 
     if status == "" then

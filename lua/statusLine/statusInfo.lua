@@ -37,26 +37,11 @@ function statusInfo.getLineInfo()
     local line = vim.fn.line(".")
     local offset = vim.fn.col(".")
 
-    local nonDouble = {
-        [1] = true,
-        [2] = true,
-        [3] = true,
-        [4] = true,
-        [5] = true,
-        [6] = true,
-        [7] = true,
-        [8] = true,
-        [9] = true
-    }
-
-    if nonDouble[offset] then
-        offset = "0" .. offset
-    end
-
     return string.format("[%d:%s]", line, offset)
 end
 
 function statusInfo.getMode()
+    -- Every so often this sends an error need to think of a way to fix this
     local mode = vim.fn.mode()
 
     local mode_table = {
@@ -74,9 +59,9 @@ function statusInfo.getMode()
     end
 
     if mode == "Insert" then
-        vim.cmd([[highlight Modes guifg=#F2F2F2]])
+        vim.api.nvim_set_hl(0, "Modes", { fg = "#F2F2F2", bg = "#7fa3c0" })
     else
-        vim.cmd([[highlight Modes guifg=#373b40 guibg=#7fa3c0]])
+        vim.api.nvim_set_hl(0, "Modes", { fg = "#373b40", bg = "#7fa3c0" })
     end
 
     return mode
