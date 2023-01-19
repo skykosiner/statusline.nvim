@@ -1,5 +1,9 @@
 local statusInfo = {}
 
+function string.starts(String, Start)
+  return string.sub(String, 1, string.len(Start)) == Start
+end
+
 function statusInfo.getFileInfo()
   local name = vim.api.nvim_buf_get_name(0)
 
@@ -16,18 +20,17 @@ function statusInfo.getFileInfo()
   return fileName
 end
 
-local function getGitIcon()
+local function get_git_icon()
   return require("nvim-web-devicons").get_icon ".gitattributes"
 end
 
 function statusInfo.getGitInfo()
-  local git_branch = vim.fn["FugitiveHead"]()
+  local git_branch = vim.fn.systemlist("git branch --show-current")
 
-  if not git_branch or git_branch == "" then
+  if string.match(git_branch[1], "fatal") then
     git_branch = "[No Git]"
   else
-    git_branch = " %s " .. git_branch
-    git_branch = string.format(git_branch, getGitIcon())
+    git_branch = string.format("%s %s", get_git_icon(), git_branch[1])
   end
 
   return git_branch
@@ -60,9 +63,9 @@ function statusInfo.getMode()
   end
 
   if mode ~= "Insert " then
-    vim.api.nvim_set_hl(0, "Modes", { fg = "#7fa3c0", bg = "#2e2e2e" })
-  else
     vim.api.nvim_set_hl(0, "Modes", { fg = "#2e2e2e", bg = "#7fa3c0" })
+  else
+    vim.api.nvim_set_hl(0, "Modes", { fg = "#7fa3c0", bg = "#2e2e2e" })
   end
 
   return mode

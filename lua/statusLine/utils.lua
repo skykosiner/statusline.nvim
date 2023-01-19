@@ -15,7 +15,6 @@ function utils.EnableItem(optionName, optionBool)
   if optionBool then
     item = options[optionName]
     print(item)
-    -- print(optionName)
   end
 
   return item

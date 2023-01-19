@@ -11,6 +11,14 @@ local statusLine = {
 -- print(vim.inspect(methods.Get("ShowItems")))
 
 function status()
+  local colors = {
+    ["backgroundColor"] = methods.Get("colors")["backgroundColor"],
+    ["textColor"] = methods.Get("colors")["textColor"]
+  }
+
+  vim.api.nvim_set_hl(0, "Ignore", { bg = colors["backgroundColor"], fg = colors["textColor"] })
+
+
   local statusline = "%%#Modes#" .. " %s" .. "%%#Ignore# " .. "%s %s %s %s %s %s %s "
   return string.format(statusline,
     statusInfo.getMode(),
@@ -26,13 +34,6 @@ end
 
 function statusLine:setStatus()
   vim.o.statusline = '%!v:lua.status()'
-
-  local colors = {
-    ["backgroundColor"] = methods.Get("colors")["backgroundColor"],
-    ["textColor"] = methods.Get("colors")["textColor"]
-  }
-
-  vim.api.nvim_set_hl(0, "Ignore", { bg = colors["backgroundColor"], fg = colors["textColor"] })
 end
 
 return statusLine
