@@ -1,3 +1,5 @@
+local Job = require "plenary.job"
+
 local statusInfo = {}
 
 function string.starts(String, Start)
@@ -25,15 +27,21 @@ local function get_git_icon()
 end
 
 function statusInfo.getGitInfo()
-  local git_branch = vim.fn.systemlist("git branch --show-current")
+  local j = Job:new({
+    command = "git",
+    args = { "branch", "--show-current" },
+    cwd = vim.fn.getcwd()
+  })
 
-  if string.match(git_branch[1], "fatal") then
-    git_branch = "[No Git]"
+  local ok, result = pcall(function()
+    return vim.trim(j:sync()[1])
+  end)
+
+  if ok then
+    return string.format("%s %s", get_git_icon(), result)
   else
-    git_branch = string.format("%s %s", get_git_icon(), git_branch[1])
+    return "[No Git]"
   end
-
-  return git_branch
 end
 
 function statusInfo.getLineInfo()
