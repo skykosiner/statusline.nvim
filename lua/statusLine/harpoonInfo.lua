@@ -1,13 +1,14 @@
 local harpoonInfo = {}
 
 function harpoonInfo.getCurrentMark()
-  local status = require("harpoon.mark").status()
+  -- local status = require("harpoon.mark").status()
 
-  if status == "" then
-    status = "N"
-  end
+  -- if status == "" then
+    -- status = "N"
+  -- end
 
-  return string.format("H:%s", status)
+  -- return string.format("H:%s", status)
+  return ""
 end
 
 return harpoonInfo
