@@ -2,6 +2,7 @@
 
 # statusline.nvim
 A small customizable status line written in Lua.
+
 [![Lua](https://img.shields.io/badge/Lua-blue.svg?style=for-the-badge&logo=lua)](http://www.lua.org)
 
 </div>
