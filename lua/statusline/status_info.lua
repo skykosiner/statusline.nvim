@@ -64,9 +64,9 @@ function status_info.get_mode(config)
   end
 
   if mode ~= "Insert " then
-    vim.api.nvim_set_hl(0, "Modes", { fg = config.forground_color, bg = config.background_color })
+    vim.api.nvim_set_hl(0, "Modes", { fg = config.foreground_color, bg = config.background_color })
   else
-    vim.api.nvim_set_hl(0, "Modes", { fg = config.background_color, bg = config.forground_color })
+    vim.api.nvim_set_hl(0, "Modes", { fg = config.background_color, bg = config.foreground_color })
   end
 
   return mode

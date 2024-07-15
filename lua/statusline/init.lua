@@ -1,7 +1,7 @@
 local status_info = require "statusline.status_info"
 ---@class statusline_config
 ---@field public background_color string
----@field public forground_color string
+---@field public foreground_color string
 ---@field public lsp_info boolean
 ---@field public harpoon_info boolean
 ---@field public git_info boolean
@@ -18,7 +18,7 @@ function statusline:new()
   return setmetatable({
     config = {
       background_color = "#2e2e2e",
-      forground_color = "#7fa3c0",
+      foreground_color = "#7fa3c0",
       lsp_info = true,
       harpoon_info = true,
       git_info = true,
@@ -68,7 +68,7 @@ end
 
 function Status()
   vim.api.nvim_set_hl(0, "Ignore",
-    { bg = new_statusline.config.background_color, fg = new_statusline.config.forground_color })
+    { bg = new_statusline.config.background_color, fg = new_statusline.config.foreground_color })
 
   local statusline_str = "%%#Modes#" .. "%s" .. "%%#Ignore# " .. "%s %s %s %s %s %s %s"
 
