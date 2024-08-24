@@ -8,7 +8,6 @@ A small customizable status line written in Lua.
 </div>
 
 # Installation
-* Neovim 0.9+ required
 ## Lazy
 ```lua
 {
@@ -30,22 +29,17 @@ use {
 
 # Getting started
 ```lua
-local statusline = require("statusline")
-
-statusline:setup({
+require("statusline").setup {
     background_color = "#2e2e2e",
     foreground_color = "#7fa3c0",
     lsp_info = true,
     harpoon_info = true,
     git_info = true,
     show_icons = true,
-})
-
-statusline:set_status()
+}
 ```
 
 The above config is a very basic config needed to get everything setup
 correctly. You can edit the background/foreground color using any hex color
 code you want to. Then you can also change certain bits of info being displayed
 to true or false. The config above is the default, but you can change
-whatever you want to make it feel more like yours :).
