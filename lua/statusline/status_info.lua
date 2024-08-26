@@ -20,7 +20,7 @@ function status_info.file_info()
     local file_name, file_ext = vim.fn.expand("%:t"), vim.fn.expand("%:e")
     local icon = require("nvim-web-devicons").get_icon(file_name, file_ext, { default = true })
 
-    return icon .. vim.fn.pathshorten(vim.fn.fnamemodify(name, ":."))
+    return icon .. " " .. vim.fn.pathshorten(vim.fn.fnamemodify(name, ":."))
 end
 
 function status_info.git_info()
