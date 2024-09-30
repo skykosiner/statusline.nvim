@@ -7,8 +7,20 @@ local Job = require "plenary.job"
 ---@field public get_mode fun(config: statusline_config): string
 ---@field public lsp_info fun(): string
 ---@field public harpoon_info fun(): string
+---@field public custom_info fun(): string
+---@field public set_status_custom fun(str: string)
 local status_info = {}
+local custom = ""
 
+---@param str string
+function status_info.set_status_custom(str)
+    custom = str
+end
+
+---@return string
+function status_info.custom_info()
+    return custom
+end
 
 function status_info.file_info()
     local name = vim.api.nvim_buf_get_name(0)
