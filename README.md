@@ -29,7 +29,7 @@ use {
 
 # Getting started
 ```lua
-require("statusline").setup {
+require("statusline"):setup {
     background_color = "#2e2e2e",
     foreground_color = "#7fa3c0",
     lsp_info = true,
