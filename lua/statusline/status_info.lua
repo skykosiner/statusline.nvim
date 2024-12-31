@@ -3,6 +3,7 @@ local Job = require "plenary.job"
 ---@class status_info
 ---@field public file_info fun(): string
 ---@field public git_info fun(): string
+---@field public git_changes fun(): string
 ---@field public line_info fun(): string
 ---@field public get_mode fun(config: statusline_config): string
 ---@field public lsp_info fun(): string
@@ -32,7 +33,8 @@ function status_info.file_info()
     local file_name, file_ext = vim.fn.expand("%:t"), vim.fn.expand("%:e")
     local icon = require("nvim-web-devicons").get_icon(file_name, file_ext, { default = true })
 
-    return icon .. " " .. vim.fn.pathshorten(vim.fn.fnamemodify(name, ":."))
+    -- return icon .. " " .. vim.fn.pathshorten(vim.fn.fnamemodify(name, ":."))
+    return icon .. " " .. vim.fn.fnamemodify(name, ":.")
 end
 
 function status_info.git_info()
@@ -53,6 +55,47 @@ function status_info.git_info()
     end
 end
 
+local parse_shortstat_output = function(s)
+    local result = {}
+
+    local insert = { git_insertions:match_str(s) }
+    if not vim.tbl_isempty(insert) then
+        table.insert(result, string.format("+%s", string.sub(s, insert[1] + 1, insert[2])))
+    end
+
+    local changed = { git_changed:match_str(s) }
+    if not vim.tbl_isempty(changed) then
+        table.insert(result, string.format("~%s", string.sub(s, changed[1] + 1, changed[2])))
+    end
+
+    local delete = { git_deletions:match_str(s) }
+    if not vim.tbl_isempty(delete) then
+        table.insert(result, string.format("-%s", string.sub(s, delete[1] + 1, delete[2])))
+    end
+
+    if vim.tbl_isempty(result) then
+        return nil
+    end
+
+    return string.format("[%s]", table.concat(result, ", "))
+end
+
+function status_info.git_changes()
+    local j = Job:new({
+        command = "git",
+        args = { "diff", "--shortstat" },
+        cwd = vim.fn.getcwd()
+    })
+
+    local ok, res = pcall(function()
+        return vim.trim(j:sync()[1])
+    end)
+
+    if ok then
+        vim.print(parse_shortstat_output(res))
+    end
+end
+
 function status_info.line_info()
     return string.format("[%d:%s]", vim.fn.line("."), vim.fn.col("."))
 end
@@ -61,27 +104,27 @@ function status_info.get_mode(config)
     local mode = vim.fn.mode()
 
     local mode_table = {
-        ["n"] = "Normal ",
-        ["i"] = "Insert ",
-        ["v"] = "Visual ",
-        ["c"] = "Command ",
-        ["cv"] = "Command ",
-        ["V"] = "Visual ",
-        ["␖"] = "Visual ",
-        ["t"] = "Terminal ",
+        ["n"] = "Normal",
+        ["i"] = "Insert",
+        ["v"] = "Visual",
+        ["c"] = "Command",
+        ["cv"] = "Command",
+        ["V"] = "Visual",
+        ["␖"] = "Visual",
+        ["t"] = "Terminal",
     }
 
     if mode_table[mode] then
         mode = mode_table[mode]
     end
 
-    if mode ~= "Insert " then
-        vim.api.nvim_set_hl(0, "Modes", { fg = config.foreground_color, bg = config.background_color })
+    if mode ~= "Insert" then
+        vim.api.nvim_set_hl(0, "Modes", { fg = "#ADB480", bg = "#0B0B08" })
     else
-        vim.api.nvim_set_hl(0, "Modes", { fg = config.background_color, bg = config.foreground_color })
+        vim.api.nvim_set_hl(0, "Modes", { fg = config.foreground_color, bg = config.background_color })
     end
 
-    return mode
+    return "[" .. mode .. "]"
 end
 
 function status_info.lsp_info()

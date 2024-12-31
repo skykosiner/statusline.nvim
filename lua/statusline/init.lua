@@ -69,6 +69,7 @@ function Status()
         { bg = new_statusline.config.background_color, fg = new_statusline.config.foreground_color })
 
     local statusline_str = "%%#Modes#" .. "%s" .. "%%#Ignore# " .. "%s %s %s %s %s %s %s %s"
+    -- status_info.git_changes()
 
     return string.format(statusline_str,
         status_info.get_mode(new_statusline.config),
