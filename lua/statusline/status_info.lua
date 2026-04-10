@@ -112,6 +112,7 @@ function status_info.get_mode(config)
         ["V"] = "Visual",
         ["␖"] = "Visual",
         ["t"] = "Terminal",
+        ["s"] = "Select",
     }
 
     if mode_table[mode] then
